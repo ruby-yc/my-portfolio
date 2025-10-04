@@ -1,0 +1,98 @@
+/* ====== 1. 全站整體設定 ====== */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #fff8dc; /* 米黃色整體背景 */
+}
+
+/* ====== 2. 頁首 Header 和標題 Slogan ====== */
+header {
+  background-color: rgba(35,28,26,0.8); /* 半透明深色背景 */
+  height: 80px;
+  width: 100%;
+  position: fixed; /* 固定在頂部 */
+  top: 0;
+  z-index: 20; /* 確保在最上層 */
+}
+
+
+/* ====== 4. 標籤頁區塊 Wrapper ====== */
+.tabs-wrapper {
+  width: 60%; /* 寬度約佔中間 2/5 到 4/5 */
+  margin: 0 auto; /* 水平置中 */
+  position: sticky; /* 吸附在視窗頂部 */
+  top: 0; /* 貼齊頂部 */
+  z-index: 10; /* 較低於 header */
+  background-color: #fff8dc; /* 背景保持米黃色 */
+  padding-top: 10px; /* 預留點空間 */
+}
+
+/* ====== 5. 標籤列 Tabs ====== */
+.tabs {
+  display: flex;
+  justify-content: space-between; /* 各 tab 均分且間距 */
+  background-color: #fff8dc; /* 跟整體同色 */
+  padding: 0 10px;
+  margin: 0;
+  border-bottom: none; /* 下方邊框，讓 tab 看起來像頂部 */
+}
+
+/* 單個 Tab 樣式 */
+.tab {
+  flex: 1; /* 等分 */
+  text-align: center;
+  margin: 0 4px;
+  padding: 8px 0;
+  border: 1px solid #000;
+  border-bottom: none; /* 去除底邊框，讓內容區域連續 */
+  background-color: #000; /* 黑底 */
+  color: #fff; /* 白字 */
+  cursor: pointer;
+  border-radius: 6px 6px 0 0; /* 上方圓角 */
+  font-weight: normal;
+  transition: background-color 0.3s;
+}
+
+/* 選中狀態的 Tab */
+.tab.active {
+  background-color: #000; /* 保持黑底 */
+  color: #fff;
+  font-weight: bold; /* 字體加粗 */
+}
+
+/* ====== 6. 內容區域：iframe ====== */
+
+
+iframe {
+  width: 70%;               /* 視覺舒適不貼邊 */
+  max-width: 1000px;        /* 最寬不超過畫面 */
+  height: 800px;            /* 預設高度 */
+  margin: 40px auto;        /* 上下空間 + 水平置中 */
+  padding: 20px;            /* 內容與邊框間距 */
+  
+  display: block;
+  border: none;   /* 黑邊框，增強分隔感 */
+  border-top: none;         /* 去掉頂部邊框，與 tab 接合 */
+  box-sizing: border-box;   /* 包含 padding */
+}
+
+
+h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+p,li,ul,strong {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+h5{
+  font-size: 13px;
+  font-weight: 100;
+}
+
+
+

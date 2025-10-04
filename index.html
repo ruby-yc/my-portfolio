@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>YuChen Dong (Ruby)</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff8dc;
+    }
+
+    /* ✅ 圖片與文字容器 */
+    .header {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+    }
+    /* 標題隱藏文字，使用背景圖片顯示 Logo */
+h1 {
+  color: white;
+  position: absolute;
+  left: 120px;
+  top: 0;
+  line-height: 80px; /* 垂直置中 */
+  background-image: url(images/5f02e94e925534ab91e67056238355a1.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 210px;
+  text-indent: -9999px; /* 隱藏文字，顯示背景圖 */
+}
+
+/* ====== 3. 中間區塊：圖片區塊 ====== */
+.image-block {
+  text-align: center;
+  margin: 120px 0 20px; /* 預留 header 固定位置的空間（約 80px）+ 額外 40px */
+}
+
+.image-block img {
+  max-width: 80%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+}
+
+
+    /* ✅ 圖片用 img 呈現完整畫面 */
+    .header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ✅ 文字區塊 */
+    .header-text {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      text-align: center;
+      transform: translateY(-50%);
+      color: black;
+      z-index: 2;
+      transition: opacity 0.3s;
+    }
+
+    .header-text h2 {
+      font-size: 32px;
+      margin: 0;
+    }
+
+    .header-text h3 {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+
+  </style>
+</head>
+<body>
+
+  <!-- ✅ 表頭圖片和文字 -->
+  <div class="header" id="header">
+    <img src="images/5f02e94e925534ab91e67056238355a1.jpg" alt="Banner Image" />
+    <div class="header-text" id="headerText">
+      <h2>YuChen Dong (Ruby)</h2>
+      <h3>Aspiring Software Engineer exploring where aesthetics meet algorithms.</h3>
+    </div>
+  </div>
+
+  <!-- ✅ 頂部固定的 Tabs 區段 -->
+<div class="tabs-wrapper">
+  <div class="tabs">
+    <div class="tab active" onclick="loadPage('intro.html', this)">Intro</div>
+    <div class="tab" onclick="loadPage('project.html', this)">Project</div>
+    <div class="tab" onclick="loadPage('skill.html', this)">Skill</div>
+    <div class="tab" onclick="loadPage('resume.html', this)">Resume</div>
+    <div class="tab" onclick="loadPage('other.html', this)">Other</div>
+    <div class="tab" onclick="loadPage('contact.html', this)">Contact</div>
+  </div>
+</div>
+
+
+  <!-- ✅ iframe 內容頁 -->
+  <iframe id="contentFrame" src="intro.html"></iframe>
+
+  <!-- ✅ 捲動淡出效果 JS -->
+  <script>
+    const header = document.getElementById('header');
+    const headerText = document.getElementById('headerText');
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const fadeStart = 0;
+      const fadeEnd = 150;
+
+      let opacity = 1;
+
+      if (scrollY > fadeStart) {
+        opacity = 1 - (scrollY - fadeStart) / (fadeEnd - fadeStart);
+        if (opacity < 0) opacity = 0;
+      }
+
+      header.style.opacity = opacity;
+    });
+
+    function loadPage(pageUrl, tabElement) {
+      document.getElementById('contentFrame').src = pageUrl;
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      tabElement.classList.add('active');
+    }
+  </script>
+</body>
+</html>
