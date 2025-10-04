@@ -1,98 +1,125 @@
 /* ====== 1. 全站整體設定 ====== */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   margin: 0;
-  background-color: #fff8dc; /* 米黃色整體背景 */
+  background-color: #2c3e50; /* 深藍灰底 */
+  color: #f5f1e8; /* 奶茶淺色 - 主文字 */
 }
 
 /* ====== 2. 頁首 Header 和標題 Slogan ====== */
 header {
-  background-color: rgba(35,28,26,0.8); /* 半透明深色背景 */
+  background-color: rgba(44, 62, 80, 0.95); /* 深藍灰半透明 */
   height: 80px;
   width: 100%;
-  position: fixed; /* 固定在頂部 */
+  position: fixed; /*固定頂部*/
   top: 0;
-  z-index: 20; /* 確保在最上層 */
+  z-index: 20; /*first layor*/
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 陰影取代邊框 */
 }
 
 
 /* ====== 4. 標籤頁區塊 Wrapper ====== */
 .tabs-wrapper {
-  width: 60%; /* 寬度約佔中間 2/5 到 4/5 */
-  margin: 0 auto; /* 水平置中 */
-  position: sticky; /* 吸附在視窗頂部 */
-  top: 0; /* 貼齊頂部 */
-  z-index: 10; /* 較低於 header */
-  background-color: #fff8dc; /* 背景保持米黃色 */
-  padding-top: 10px; /* 預留點空間 */
+  width: 100%;
+  margin: 0 auto;
+  position: relative;         /* 不要 sticky，滾動會消失 */
+  background-color: #1f2d3a;  /* 專屬底色（比 body 深一點） */
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 6px 6px 0 0;
 }
 
 /* ====== 5. 標籤列 Tabs ====== */
 .tabs {
+  width: 60%;                   /* 中間佔 60% 的寬度 */
+  margin: 0 auto;               /* 水平置中 */
   display: flex;
-  justify-content: space-between; /* 各 tab 均分且間距 */
-  background-color: #fff8dc; /* 跟整體同色 */
-  padding: 0 10px;
-  margin: 0;
-  border-bottom: none; /* 下方邊框，讓 tab 看起來像頂部 */
+  justify-content: space-around;/* tab 平均分散 */
+  background: transparent;
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* 單個 Tab 樣式 */
 .tab {
-  flex: 1; /* 等分 */
+  flex: 1;
   text-align: center;
   margin: 0 4px;
-  padding: 8px 0;
-  border: 1px solid #000;
-  border-bottom: none; /* 去除底邊框，讓內容區域連續 */
-  background-color: #000; /* 黑底 */
-  color: #fff; /* 白字 */
+  padding: 8px 0;               /* 細長 */
+  background-color: #7fa1b3;
+  color: #f5f1e8;
   cursor: pointer;
-  border-radius: 6px 6px 0 0; /* 上方圓角 */
+  border-radius: 4px 4px 0 0;
   font-weight: normal;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Hover 狀態 */
+.tab:hover {
+  background-color: #9eb3a0; 
+  transform: translateY(-2px); /* 輕微上浮效果 */
 }
 
 /* 選中狀態的 Tab */
 .tab.active {
-  background-color: #000; /* 保持黑底 */
-  color: #fff;
-  font-weight: bold; /* 字體加粗 */
+  background-color: #faf6f0;
+  color: #2c3e50;
+  font-weight: bold;
 }
 
 /* ====== 6. 內容區域：iframe ====== */
 
 
+
 iframe {
-  width: 70%;               /* 視覺舒適不貼邊 */
-  max-width: 1000px;        /* 最寬不超過畫面 */
-  height: 800px;            /* 預設高度 */
-  margin: 40px auto;        /* 上下空間 + 水平置中 */
-  padding: 20px;            /* 內容與邊框間距 */
-  
+  width: 70%;
+  max-width: 1000px;
+  height: 1200px;
   display: block;
-  border: none;   /* 黑邊框，增強分隔感 */
-  border-top: none;         /* 去掉頂部邊框，與 tab 接合 */
-  box-sizing: border-box;   /* 包含 padding */
+  margin: 0 auto;       
+  padding: 0;           /* 內距 */
+  border: none;
+  box-sizing: border-box;
+  background-color: transparent;
+  border-radius: 0 0 12px 12px;
+  
 }
 
 
+/* ====== 7. 文字樣式 ====== */
 h2 {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
+  color: #c9b8ab; 
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
-p,li,ul,strong {
+p, li, ul, strong {
   font-size: 18px;
-  line-height: 1.5;
+  line-height: 1.6;
   margin-bottom: 15px;
+  color: #f5f1e8; /* 奶茶淺色 */
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
-h5{
+h5 {
   font-size: 13px;
   font-weight: 100;
+  color: #b5a8a1; /* 奶茶色 - 次要文字 */
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
+/* 連結樣式 */
+a {
+  color: #7fa1b3; /* 霧藍 */
+  text-decoration: none;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  transition: color 0.3s;
+}
 
-
+a:hover {
+  color: #d4b5b0; /* 煙粉 */
+  text-decoration: underline;
+}
