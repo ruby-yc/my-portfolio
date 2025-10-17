@@ -75,15 +75,14 @@ header {
 iframe {
   width: 70%;
   max-width: 1000px;
-  height: 1200px;
-  display: block;
-  margin: 0 auto;       
-  padding: 0;           /* 內距 */
+  height: 2500px;  /* 設定一個足夠大的高度 */
   border: none;
+  display: block;
+  margin: 20px auto;       
+  padding: 0;
   box-sizing: border-box;
   background-color: transparent;
   border-radius: 0 0 12px 12px;
-  
 }
 
 
@@ -122,4 +121,9 @@ a {
 a:hover {
   color: #d4b5b0; /* 煙粉 */
   text-decoration: underline;
+}
+
+/*fencing pic */
+section.other-image.single-center {
+  max-width: 240px;  /* 只顯示一張圖的寬度 */
 }

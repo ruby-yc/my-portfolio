@@ -136,6 +136,19 @@ h1 {
       document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
       tabElement.classList.add('active');
     }
+   
+const iframe = document.getElementById('contentFrame');
+
+iframe.onload = function() {
+  try {
+    // 動態調整 iframe 高度以適應內容
+    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+    iframe.style.height = iframeDoc.body.scrollHeight + 'px';
+  } catch(e) {
+    // 如果無法訪問，使用預設高度
+    iframe.style.height = '1500px';
+  }
+};
   </script>
 </body>
 </html>

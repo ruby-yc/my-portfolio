@@ -4,6 +4,35 @@
   <meta charset="UTF-8">
   <title>Page Title</title>
   <link rel="stylesheet" href="style.css">
+   <style>
+    h2.intro-title {
+      font-size: 2em;
+      text-decoration: underline;
+    }
+
+section.other-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+section.other-image div {
+  flex: 1;
+  max-width: 240px;
+}
+
+section.other-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: block;
+}
+  </style>
 </head>
 <body>
 
@@ -21,12 +50,45 @@
 
    <h2>Toastmasters International</h2>
    <p> Developed strong communication and presentation skills through regular speeches and constructive feedback sessions. Practiced delivering technical and non-technical content clearly and persuasively.</p>
-   
+   <section class ="other-image">
+      <div> 
+        <img src="images/TM-speaking.jpg" alt="TM topic sharing"> 
+      </div>
+
+      <div> 
+        <img src="images/TM-timer.jpg" alt="TM timer ">
+      </div>
+
+      <div> 
+        <img src="images/TM.jpg" alt="FJU ToastMaster">
+      </div>
+
+   </section>
+
+
   <h2>Elementary School Health Education Camp </h2>
   <p>Designed and led an interactive winter camp for elementary school students, transforming complex topics into fun, hands-on learning experiences. By crafting age-appropriate activities and fostering curiosity, I strengthened my ability to distill intricate concepts into clear, engaging formats—enhancing both my communication skills and creative teaching approach.</p>
+   <section class ="other-image">
+      <div> 
+        <img src="images/history-intro.jpg" alt="history intro"> 
+      </div>
 
-  <h2>Fun Fact - Fencing</h2>
-  <p>Practiced the art of fencing, a sport that sharpened my focus, discipline, and split-second decision-making. The precision and strategic thinking required in fencing cultivated a strong attention to detail and logical rigor—qualities that form a solid foundation for problem-solving.</p>
+      <div> 
+        <img src="images/wintercamp2.jpg" alt="wintercamp1">
+      </div>
+
+      <div> 
+        <img src="images/wintercamp.jpg" alt="wintercamp2">
+      </div>
+</section>
+
+<h2>Fun Fact - Fencing</h2>
+<p>Practiced the art of fencing, a sport that sharpened my focus, discipline, and split-second decision-making. The precision and strategic thinking required in fencing cultivated a strong attention to detail and logical rigor—qualities that form a solid foundation for problem-solving.</p>
+<section class="other-image single-center">
+  <div>
+    <img src="images/fencing.jpg" alt="Fencing practice">
+  </div>
+</section>
 
 </body>
 </html>
