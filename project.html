@@ -2,18 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Page Title</title>
+  <title>Projects</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
- <h2 class="project-title">PROJECT</h2>
-<style>
-  h2.project-title {
-    font-size: 2em;
-    text-decoration: underline;
-  }
-</style>
+<h2 class="intro-title">PROJECT</h2>
+
+<h2>SmartSort</h2>
+<ul>
+<li>AI-powered waste classification app that identifies trash types via camera</li> 
+<li>Integrated map feature to locate nearby recycling centers and gamification system tracking carbon savings</li> 
+<li>Built web interface and connected frontend to backend image recognition APIs</li> 
+<li>Collaborated with team of 4 to complete project in 72 hours</li> 
+</ul>
+</p>
+<h5><a href="https://github.com/nuaq2005/SmartSort" target="_blank" style="color: inherit; text-decoration: none;">Click here for source code</a></h5>
+
 
 <h2>COIL</h2>
 <p>
@@ -25,6 +30,32 @@
 <p>Developed a web-based application capable of detecting whether individuals are wearing face masks using computer vision techniques. The system utilizes a real-time object detection model integrated into a web interface to provide instant sound feedback. In addition to the software component, I independently designed and connected the hardware setup using an Arduino microcontroller, incorporating sensors and buzzer for data input and control.</p>
 <h5>Mask detection system code and circuit diagram PDF. <a href="mask_detect_arduino.pdf" target="_blank" download class="download-link">Download here</a></h5>
 
-
 </body>
+<script>
+function sendHeight() {
+  const height = document.documentElement.scrollHeight;
+  parent.postMessage({ type: 'setHeight', height: height }, window.location.origin);
+}
+
+// 頁面載入完成
+window.addEventListener('load', sendHeight);
+
+// 等圖片完全載入後再更新
+window.addEventListener('load', () => {
+  const imgs = document.images;
+  let loadedCount = 0;
+  for (let img of imgs) {
+    if (img.complete) {
+      loadedCount++;
+    } else {
+      img.onload = img.onerror = () => {
+        loadedCount++;
+        if (loadedCount === imgs.length) sendHeight();
+      }
+    }
+  }
+  if (loadedCount === imgs.length) sendHeight();
+});
+</script>
+
 </html>

@@ -4,23 +4,77 @@
   <meta charset="UTF-8">
   <title>Page Title</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* 標題樣式 */
+    h2.intro-title {
+      font-size: 2em;
+      text-decoration: underline;
+    }
+
+    /* 移除 body 預設邊距，確保沒有多餘空白 */
+    body {
+      margin: 0;
+      padding: 0px;
+    }
+
+    /* 照片容器樣式 */
+    .intro-photo {
+      text-align: center; /* 照片置中 */
+      margin: 20px 0; /* 上下間距 */
+    }
+
+    .intro-photo img {
+      max-width: 200px; /* 照片最大寬度 */
+      height: auto; /* 高度自動 */
+      border-radius: 8px; /* 圓角 */
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* 陰影效果 */
+    }
+  </style>
 </head>
 <body>
 
-<h2 class="intro-title">INTRO</h2>
-<style>
-  h2.intro-title {
-    font-size: 2em;
-    text-decoration: underline;
-  }
-</style>
+  <!-- 主標題 -->
+  <h2 class="intro-title">INTRO</h2>
 
-   <h2>background</h2>
-   <p>Hi! Welcome to my personal website. My name is Ruby. I am currently pursuing a Bachelor’s degree in Computer Science at Queens College, City University of New York (CUNY). I started my academic journey in Taiwan, studying Food Science and Physics at Fu Jen Catholic University. After transferring to my current university, my physics background opened doors to semiconductors and coding and that's when I discovered my passion for computer science.
-Moving to New York alone was a big step outside my comfort zone, but it's been incredibly rewarding. I genuinely enjoy connecting with people from different cultural backgrounds and professional fields. These conversations expose me to diverse perspectives and teach me something unique from everyone I meet. Being bilingual also helps me navigate diverse cultural and academic environments.
-I'm a strong believer in the power of teamwork, especially when it comes to innovation and creativity. There's something special about bringing together different strengths—when everyone contributes what they do best, the results can be remarkable.</p>
+  <!-- 副標題 -->
+  <h2>background</h2>
+  
+  <!-- 個人介紹文字 -->
+  <p>Hi! Welcome to my personal website. My name is Ruby. I am currently pursuing a Bachelor's degree in Computer Science at Queens College (CUNY). I started my academic journey in Taiwan, studying Food Science and Physics at Fu Jen Catholic University. After transferring to my current university, my physics background opened doors to semiconductors and coding and that's when I discovered my passion for computer science.
+  Moving to New York alone was a big step outside my comfort zone, but it's been incredibly rewarding. I genuinely enjoy connecting with people from different cultural backgrounds and professional fields. These conversations expose me to diverse perspectives and teach me something unique from everyone I meet. Being bilingual also helps me navigate diverse cultural and academic environments.
+  I'm a strong believer in the power of teamwork, especially when it comes to innovation and creativity. There's something special about bringing together different strengths—when everyone contributes what they do best, the results can be remarkable.</p>
 
-  </p>
+  <!-- 個人照片 -->
+  <div class="intro-photo">
+    <img src="images/selfie.JPG" alt="Ruby's photo"> <!-- 確認路徑正確 -->
+  </div>
 
 </body>
+<script>
+function sendHeight() {
+  const height = document.documentElement.scrollHeight;
+  parent.postMessage({ type: 'setHeight', height: height }, window.location.origin);
+}
+
+// 頁面載入完成
+window.addEventListener('load', sendHeight);
+
+// 等圖片完全載入後再更新
+window.addEventListener('load', () => {
+  const imgs = document.images;
+  let loadedCount = 0;
+  for (let img of imgs) {
+    if (img.complete) {
+      loadedCount++;
+    } else {
+      img.onload = img.onerror = () => {
+        loadedCount++;
+        if (loadedCount === imgs.length) sendHeight();
+      }
+    }
+  }
+  if (loadedCount === imgs.length) sendHeight();
+});
+</script>
+
 </html>

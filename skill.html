@@ -2,19 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Page Title</title>
+  <title>Skills</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2 class="skill-title">SKILLS</h2>
-<style>
-  h2.skill-title {
-    font-size: 2em;
-    text-decoration: underline;
-  }
-</style>
-
+<h2 class="intro-title">SKILLS</h2>
 
 <section>
   <h2>Technical Skills</h2>
@@ -35,3 +28,33 @@
     <li>Public Speaking</li>
   </ul>
 </section>
+
+</body>
+<script>
+function sendHeight() {
+  const height = document.documentElement.scrollHeight;
+  parent.postMessage({ type: 'setHeight', height: height }, window.location.origin);
+}
+
+// 頁面載入完成
+window.addEventListener('load', sendHeight);
+
+// 等圖片完全載入後再更新
+window.addEventListener('load', () => {
+  const imgs = document.images;
+  let loadedCount = 0;
+  for (let img of imgs) {
+    if (img.complete) {
+      loadedCount++;
+    } else {
+      img.onload = img.onerror = () => {
+        loadedCount++;
+        if (loadedCount === imgs.length) sendHeight();
+      }
+    }
+  }
+  if (loadedCount === imgs.length) sendHeight();
+});
+</script>
+
+</html>

@@ -1,129 +1,228 @@
 /* ====== 1. 全站整體設定 ====== */
+* {
+  box-sizing: border-box; /* 包含邊框和內距的盒模型 */
+}
+
 body {
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-  margin: 0;
-  background-color: #2c3e50; /* 深藍灰底 */
-  color: #f5f1e8; /* 奶茶淺色 - 主文字 */
+  font-family: 'Lato', 'Open Sans', sans-serif; /* 內文字體 */
+  margin: 0; /* 移除預設邊距 */
+  background-color: #f5f5f5; /* 淺灰白背景（非純白） */
+  color: #2a2a2a; /* 深灰黑 - 主文字（非純黑） */
 }
 
 /* ====== 2. 頁首 Header 和標題 Slogan ====== */
 header {
-  background-color: rgba(44, 62, 80, 0.95); /* 深藍灰半透明 */
-  height: 80px;
-  width: 100%;
-  position: fixed; /*固定頂部*/
-  top: 0;
-  z-index: 20; /*first layor*/
+  background-color: rgba(245, 245, 245, 0.95); /* 淺灰白半透明 */
+  height: 80px; /* 頁首高度 */
+  width: 100%; /* 全寬 */
+  position: fixed; /* 固定頂部 */
+  top: 0; /* 置頂 */
+  z-index: 20; /* first layor */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 陰影取代邊框 */
 }
 
+.header {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* 漸層灰色蒙版背景 */
+.header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(209, 209, 209, 0), rgba(59, 59, 59, 0.3));
+  z-index: 1;
+}
+
+/* 背景圖片 */
+.header img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.header-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  font-family: 'Lato', 'Open Sans', sans-serif;
+  padding: 0;
+  max-width: 80%;
+  text-align: center;
+}
+
+/* Header 標題與副標題樣式 */
+.header-title,
+.header-subtitle {
+  font-family: 'Lato', 'Open Sans', sans-serif;
+  color: #2a2a2a; /* 深灰黑 */
+  text-shadow: 
+    2px 2px 4px rgba(255, 255, 255, 0.9),
+    0 0 20px rgba(255, 255, 255, 0.8); /* 白色陰影 */
+  margin: 0;
+}
+
+.header-title {
+  font-size: 32px;
+  font-weight: 600; /* 正常粗細 */
+  margin-bottom: 8px;
+}
+
+.header-subtitle {
+  font-size: 12px;
+  font-weight: 400; /* 正常粗細 */
+}
+/* 標題隱藏文字，使用背景圖片顯示 Logo */
+h1 {
+  color: #2a2a2a; /* 深灰黑 */
+  position: absolute; /* 絕對定位 */
+  left: 120px; /* 左側位置 */
+  top: 0; /* 頂部位置 */
+  line-height: 80px; /* 垂直置中 */
+  background-image: url(images/5f02e94e925534ab91e67056238355a1.jpg); /* 背景圖片 */
+  background-repeat: no-repeat; /* 不重複 */
+  background-position: center; /* 置中 */
+  width: 210px; /* 寬度 */
+  text-indent: -9999px; /* 隱藏文字，顯示背景圖 */
+}
+
+/* ====== 3. 中間區塊：圖片區塊 ====== */
+.image-block {
+  text-align: center; /* 文字置中 */
+  margin: 120px 0 20px; /* 預留 header 固定位置的空間（約 80px）+ 額外 40px */
+}
+
+.image-block img {
+  max-width: 80%; /* 最大寬度 80% */
+  height: auto; /* 自動高度 */
+  display: block; /* 區塊顯示 */
+  margin: 0 auto; /* 水平置中 */
+  border-radius: 12px; /* 圓角 */
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.2); /* 陰影 */
+}
 
 /* ====== 4. 標籤頁區塊 Wrapper ====== */
 .tabs-wrapper {
-  width: 100%;
-  margin: 0 auto;
-  position: relative;         /* 不要 sticky，滾動會消失 */
-  background-color: #1f2d3a;  /* 專屬底色（比 body 深一點） */
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 6px 6px 0 0;
+  width: 100%; /* 全寬 */
+  margin: 0 auto; /* 水平置中 */
+  position: relative; /* 不要 sticky，滾動會消失 */
+  background-color: #f5f5f5; /* 跟背景一樣的淺灰白 */
+  padding-top: 10px; /* 上方內距 */
+  padding-bottom: 10px; /* 下方內距 */
+  border-radius: 0; /* 移除圓角 */
+  box-shadow: none; /* 移除陰影 */
 }
 
 /* ====== 5. 標籤列 Tabs ====== */
 .tabs {
-  width: 60%;                   /* 中間佔 60% 的寬度 */
-  margin: 0 auto;               /* 水平置中 */
-  display: flex;
-  justify-content: space-around;/* tab 平均分散 */
-  background: transparent;
-  padding: 0;
-  margin-top: 0;
-  margin-bottom: 0;
+  width: 80%; /* 中間佔 60% 的寬度 */
+  margin: 0 auto; /* 水平置中 */
+  display: flex; /* 彈性排版 */
+  justify-content: space-around; /* tab 平均分散 */
+  background: transparent; /* 透明背景 */
+  padding: 0; /* 無內距 */
 }
 
 /* 單個 Tab 樣式 */
 .tab {
-  flex: 1;
-  text-align: center;
-  margin: 0 4px;
-  padding: 8px 0;               /* 細長 */
-  background-color: #7fa1b3;
-  color: #f5f1e8;
-  cursor: pointer;
-  border-radius: 4px 4px 0 0;
-  font-weight: normal;
-  transition: background-color 0.3s, transform 0.2s;
+  flex: 1; /* 平均分配寬度 */
+  text-align: center; /* 文字置中 */
+  margin: 0 4px; /* 左右間距 */
+  padding: 6px 0; /* 上下內距 */
+  background-color: transparent; /* 透明背景（無背景） */
+  color: #6a6a6a; /* 中灰色文字 */
+  cursor: pointer; /* 滑鼠游標變手指 */
+  border-radius: 0; /* 移除圓角 */
+  font-weight: normal; /* 正常粗細 */
+  font-size: 14px; /* 字體大小 */
+  font-family: 'Roboto', 'Poppins', 'Inter', sans-serif; /* 現代科技感字體 */
+  transition: color 0.3s, transform 0.2s; /* 顏色和變形過渡效果 */
 }
 
 /* Hover 狀態 */
 .tab:hover {
-  background-color: #9eb3a0; 
+  color: #6b9ac4; /* 藍色點綴 */
+  background-color: transparent; /* 保持透明 */
   transform: translateY(-2px); /* 輕微上浮效果 */
 }
 
 /* 選中狀態的 Tab */
 .tab.active {
-  background-color: #faf6f0;
-  color: #2c3e50;
-  font-weight: bold;
+  color: #4a7ba7; /* 深藍色點綴 */
+  background-color: transparent; /* 保持透明 */
+  font-weight: bold; /* 粗體 */
 }
 
 /* ====== 6. 內容區域：iframe ====== */
-
-
-
 iframe {
-  width: 70%;
-  max-width: 1000px;
-  height: 2500px;  /* 設定一個足夠大的高度 */
-  border: none;
-  display: block;
-  margin: 20px auto;       
-  padding: 0;
-  box-sizing: border-box;
-  background-color: transparent;
-  border-radius: 0 0 12px 12px;
+  width: 70%; /* 寬度 70% */
+  max-width: 1000px; /* 最大寬度限制 */
+  height: auto; /* 設定一個足夠大的高度 */
+  min-height: 0;
+  border: none; /* 無邊框 */
+  display: block; /* 區塊顯示 */
+  margin: 20px auto; /* 上下 20px，左右置中 */
+  padding: 0; /* 無內距 */
+  box-sizing: border-box; /* 包含邊框和內距的盒模型 */
+  background-color: #fafafa; /* iframe 內容白色背景（非純白） */
+  border-radius: 0 0 12px 12px; /* 下方圓角 */
+  overflow: hidden; /* 取消滾輪 */
+  pointer-events: auto; /* 保持互動性 */
+  transition: height 0.3s ease; /* 平滑調整 */
 }
-
 
 /* ====== 7. 文字樣式 ====== */
 h2 {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #c9b8ab; 
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 18px; /* 字體大小縮小 */
+  font-weight: bold; /* 粗體 */
+  margin-bottom: 20px; /* 下方間距 */
+  color: #3a3a3a; /* 中深灰 */
+  font-family: 'Roboto', 'Poppins', 'Inter', sans-serif; /* 現代科技感字體 */
 }
 
 p, li, ul, strong {
-  font-size: 18px;
-  line-height: 1.6;
-  margin-bottom: 15px;
-  color: #f5f1e8; /* 奶茶淺色 */
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 16px; /* 字體大小縮小 */
+  line-height: 1.6; /* 行高 */
+  margin-bottom: 15px; /* 下方間距 */
+  color: #2a2a2a; /* 深灰黑 */
+  font-family: 'Lato', 'Open Sans', sans-serif; /* 簡單易讀字體 */
 }
 
 h5 {
-  font-size: 13px;
-  font-weight: 100;
-  color: #b5a8a1; /* 奶茶色 - 次要文字 */
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 12px; /* 字體大小縮小 */
+  font-weight: 100; /* 極細字重 */
+  color: #6a6a6a; /* 中灰 - 次要文字 */
+  font-family: 'Lato', 'Open Sans', sans-serif;
 }
 
 /* 連結樣式 */
 a {
-  color: #7fa1b3; /* 霧藍 */
-  text-decoration: none;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-  transition: color 0.3s;
+  color: #5a8db8; /* 藍色點綴 */
+  text-decoration: none; /* 無底線 */
+  font-family: 'Lato', 'Open Sans', sans-serif;
+  transition: color 0.3s; /* 顏色過渡效果 */
 }
 
 a:hover {
-  color: #d4b5b0; /* 煙粉 */
-  text-decoration: underline;
+  color: #4a7ba7; /* 深藍色 */
+  text-decoration: underline; /* 底線 */
 }
 
-/*fencing pic */
+/* fencing pic */
 section.other-image.single-center {
-  max-width: 240px;  /* 只顯示一張圖的寬度 */
+  max-width: 240px; /* 只顯示一張圖的寬度 */
+}
+
+h2.intro-title {
+  font-size: 2em;
+  text-decoration: underline;
 }
