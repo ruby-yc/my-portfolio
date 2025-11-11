@@ -10,16 +10,16 @@
 <h2 class="intro-title">SKILLS</h2>
 
 <section>
-  <h2>Technical Skills</h2>
+  <h3>Technical Skills</h3>
   <ul>
-    <li><strong>Programming Languages:</strong> C++, Java, and Python, with experience in object-oriented programming, algorithm design, and data structure implementation.</li>
-    <li><strong>Web Development:</strong> HTML and CSS for building accessible user interfaces.</li>
-    <li><strong>Cloud & AI:</strong> Microsoft Azure AI Fundamentals certified, with knowledge in cloud-based machine learning.</li>
+    <li>Programming Languages: C++, Java, and Python, with experience in object-oriented programming, algorithm design, and data structure implementation.</li>
+    <li>Web Development: HTML and CSS for building accessible user interfaces.</li>
+    <li>Cloud & AI: Microsoft Azure AI Fundamentals certified, with knowledge in cloud-based machine learning.</li>
   </ul>
 </section>
 
 <section>
-  <h2>Non-Technical skills</h2>
+  <h3>Non-Technical skills</h3>
   <ul>
     <li>Problem-Solving</li>
     <li>Team Collaboration</li>
@@ -30,30 +30,66 @@
 </section>
 
 </body>
+
 <script>
+let lastSentHeight = 0;
+let stabilityCheckCount = 0;
+let lastCheckedHeight = 0;
+
 function sendHeight() {
-  const height = document.documentElement.scrollHeight;
-  parent.postMessage({ type: 'setHeight', height: height }, window.location.origin);
+    const height = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+    );
+    
+    if (height !== lastSentHeight) {
+        lastSentHeight = height;
+        console.log('子頁面發送高度:', height);
+        parent.postMessage({ type: 'setHeight', height }, '*');
+    }
 }
 
-// 頁面載入完成
-window.addEventListener('load', sendHeight);
-
-// 等圖片完全載入後再更新
-window.addEventListener('load', () => {
-  const imgs = document.images;
-  let loadedCount = 0;
-  for (let img of imgs) {
-    if (img.complete) {
-      loadedCount++;
+// 檢查頁面是否穩定（高度不再變化）
+function checkStability() {
+    const currentHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+    );
+    
+    if (currentHeight === lastCheckedHeight) {
+        stabilityCheckCount++;
+        // 連續 3 次檢查高度相同，認為頁面穩定
+        if (stabilityCheckCount >= 3) {
+            sendHeight();
+            clearInterval(stabilityInterval);
+            console.log(' stable, height confirm');
+        }
     } else {
-      img.onload = img.onerror = () => {
-        loadedCount++;
-        if (loadedCount === imgs.length) sendHeight();
-      }
+        stabilityCheckCount = 0;
+        lastCheckedHeight = currentHeight;
     }
-  }
-  if (loadedCount === imgs.length) sendHeight();
+}
+
+// 初始載入後等待頁面穩定
+let stabilityInterval;
+window.addEventListener('load', () => {
+    // load 後等待 800ms 再開始檢查穩定性
+    setTimeout(() => {
+        stabilityCheckCount = 0;
+        lastCheckedHeight = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight
+        );
+        // 每 200ms 檢查一次，確保高度穩定
+        stabilityInterval = setInterval(checkStability, 200);
+    }, 800);
+});
+
+// 接收父頁面請求時發送
+window.addEventListener('message', (event) => {
+    if (event.data?.type === 'getHeight') {
+        sendHeight();
+    }
 });
 </script>
 

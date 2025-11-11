@@ -23,7 +23,7 @@ header {
 
 .header {
   position: relative;
-  height: 250px;
+  height: 200px; /* 從 250px 改為 200px */
   overflow: hidden;
   z-index: 0;
 }
@@ -60,7 +60,7 @@ header {
   text-align: center;
 }
 
-/* Header 標題與副標題樣式 */
+/* Header 標題與副標題樣式 (保持不變) */
 .header-title,
 .header-subtitle {
   font-family: 'Lato', 'Open Sans', sans-serif;
@@ -69,18 +69,20 @@ header {
     2px 2px 4px rgba(255, 255, 255, 0.9),
     0 0 20px rgba(255, 255, 255, 0.8); /* 白色陰影 */
   margin: 0;
+  text-decoration: none; 
 }
 
 .header-title {
-  font-size: 32px;
-  font-weight: 600; /* 正常粗細 */
+  font-size: 32px; /* 保持不變 */
+  font-weight: 600;
   margin-bottom: 8px;
 }
 
 .header-subtitle {
-  font-size: 12px;
-  font-weight: 400; /* 正常粗細 */
+  font-size: 12px; /* 保持不變 */
+  font-weight: 400;
 }
+
 /* 標題隱藏文字，使用背景圖片顯示 Logo */
 h1 {
   color: #2a2a2a; /* 深灰黑 */
@@ -143,7 +145,7 @@ h1 {
   cursor: pointer; /* 滑鼠游標變手指 */
   border-radius: 0; /* 移除圓角 */
   font-weight: normal; /* 正常粗細 */
-  font-size: 14px; /* 字體大小 */
+  font-size: 13px; /* 從 14px 改為 13px */
   font-family: 'Roboto', 'Poppins', 'Inter', sans-serif; /* 現代科技感字體 */
   transition: color 0.3s, transform 0.2s; /* 顏色和變形過渡效果 */
 }
@@ -163,44 +165,57 @@ h1 {
 }
 
 /* ====== 6. 內容區域：iframe ====== */
-iframe {
-  width: 70%; /* 寬度 70% */
-  max-width: 1000px; /* 最大寬度限制 */
-  height: auto; /* 設定一個足夠大的高度 */
-  min-height: 0;
-  border: none; /* 無邊框 */
-  display: block; /* 區塊顯示 */
-  margin: 20px auto; /* 上下 20px，左右置中 */
-  padding: 0; /* 無內距 */
-  box-sizing: border-box; /* 包含邊框和內距的盒模型 */
-  background-color: #fafafa; /* iframe 內容白色背景（非純白） */
-  border-radius: 0 0 12px 12px; /* 下方圓角 */
-  overflow: hidden; /* 取消滾輪 */
-  pointer-events: auto; /* 保持互動性 */
-  transition: height 0.3s ease; /* 平滑調整 */
-}
+/* 在 style.css 中替換 iframe 的樣式為： */
 
+iframe {
+  width: 70%;
+  max-width: 1000px;
+  height: auto;
+  min-height: 300px;
+  max-height: 2000px;  /* 新增：限制最大高度，防止無限增長 */
+  border: none;
+  display: block;
+  margin: 20px auto;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #fafafa;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+  pointer-events: auto;
+  transition: height 0.3s ease;
+  contain: layout style paint;  /* 新增：CSS containment 防止高度重算影響 */
+}
 /* ====== 7. 文字樣式 ====== */
 h2 {
-  font-size: 18px; /* 字體大小縮小 */
+  font-size: 16px; 
   font-weight: bold; /* 粗體 */
-  margin-bottom: 20px; /* 下方間距 */
-  color: #3a3a3a; /* 中深灰 */
+  margin-bottom: 15px;
+  color: #3a3a3a; 
   font-family: 'Roboto', 'Poppins', 'Inter', sans-serif; /* 現代科技感字體 */
 }
 
+h3 {
+  font-size: 15px;
+  font-weight: 400;
+  font-style: italic;
+  margin-top: 25px;
+  margin-bottom: 12px;
+  color: #4a4a4a;
+  font-family: 'Georgia', 'Merriweather', 'Crimson Text', serif; /* 優雅襯線體 */
+  text-decoration: underline;
+}
 p, li, ul, strong {
-  font-size: 16px; /* 字體大小縮小 */
+  font-size: 14px; 
   line-height: 1.6; /* 行高 */
-  margin-bottom: 15px; /* 下方間距 */
+  margin-bottom: 12px; 
   color: #2a2a2a; /* 深灰黑 */
-  font-family: 'Lato', 'Open Sans', sans-serif; /* 簡單易讀字體 */
+  font-family: 'Lato', 'Open Sans', sans-serif; 
 }
 
 h5 {
-  font-size: 12px; /* 字體大小縮小 */
+  font-size: 11px; 
   font-weight: 100; /* 極細字重 */
-  color: #6a6a6a; /* 中灰 - 次要文字 */
+  color: #6a6a6a; 
   font-family: 'Lato', 'Open Sans', sans-serif;
 }
 
@@ -219,10 +234,77 @@ a:hover {
 
 /* fencing pic */
 section.other-image.single-center {
-  max-width: 240px; /* 只顯示一張圖的寬度 */
+  max-width: 240px;
 }
 
+/* 標題樣式 */
 h2.intro-title {
-  font-size: 2em;
+  font-size: 1.6em; /* 從 2em 改為 1.6em */
+
+}
+
+/* 照片容器樣式 */
+.intro-photo {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.intro-photo img {
+  max-width: 180px; /* 從 200px 改為 180px */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Other 頁面的圖片區域 */
+section.other-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px; /* 從 30px 改為 25px */
+  margin: 15px auto; /* 從 20px 改為 15px */
+  max-width: 800px;
+}
+
+section.other-image div {
+  flex: 1;
+  max-width: 220px; /* 從 240px 改為 220px */
+}
+
+section.other-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: block;
+}
+
+/* Contact 頁面樣式 */
+.contact-section h3 {
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+  display: inline-block;
+  font-style: italic;
+  font-size: 16px; 
+}
+
+.contact-section h3 a {
+  color: inherit;
+  text-decoration: none;
+  display: inline-block;
+  font-family: 'Georgia', 'Merriweather', 'Crimson Text', serif;
+}
+
+.contact-section h3 a:hover {
   text-decoration: underline;
+}
+
+.contact-section h3:hover {
+  color: #5a8db8;
+  transform: translateX(5px);
+}
+
+.contact-section h3:active {
+  color: #4a7ba7;
 }

@@ -4,32 +4,7 @@
   <meta charset="UTF-8">
   <title>Page Title</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* 標題樣式 */
-    h2.intro-title {
-      font-size: 2em;
-      text-decoration: underline;
-    }
-
-    /* 移除 body 預設邊距，確保沒有多餘空白 */
-    body {
-      margin: 0;
-      padding: 0px;
-    }
-
-    /* 照片容器樣式 */
-    .intro-photo {
-      text-align: center; /* 照片置中 */
-      margin: 20px 0; /* 上下間距 */
-    }
-
-    .intro-photo img {
-      max-width: 200px; /* 照片最大寬度 */
-      height: auto; /* 高度自動 */
-      border-radius: 8px; /* 圓角 */
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* 陰影效果 */
-    }
-  </style>
+ 
 </head>
 <body>
 
@@ -37,7 +12,7 @@
   <h2 class="intro-title">INTRO</h2>
 
   <!-- 副標題 -->
-  <h2>background</h2>
+  <h3>background</h3>
   
   <!-- 個人介紹文字 -->
   <p>Hi! Welcome to my personal website. My name is Ruby. I am currently pursuing a Bachelor's degree in Computer Science at Queens College (CUNY). I started my academic journey in Taiwan, studying Food Science and Physics at Fu Jen Catholic University. After transferring to my current university, my physics background opened doors to semiconductors and coding and that's when I discovered my passion for computer science.
@@ -50,30 +25,66 @@
   </div>
 
 </body>
+
 <script>
+let lastSentHeight = 0;
+let stabilityCheckCount = 0;
+let lastCheckedHeight = 0;
+
 function sendHeight() {
-  const height = document.documentElement.scrollHeight;
-  parent.postMessage({ type: 'setHeight', height: height }, window.location.origin);
+    const height = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+    );
+    
+    if (height !== lastSentHeight) {
+        lastSentHeight = height;
+        console.log('子頁面發送高度:', height);
+        parent.postMessage({ type: 'setHeight', height }, '*');
+    }
 }
 
-// 頁面載入完成
-window.addEventListener('load', sendHeight);
-
-// 等圖片完全載入後再更新
-window.addEventListener('load', () => {
-  const imgs = document.images;
-  let loadedCount = 0;
-  for (let img of imgs) {
-    if (img.complete) {
-      loadedCount++;
+// 檢查頁面是否穩定（高度不再變化）
+function checkStability() {
+    const currentHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+    );
+    
+    if (currentHeight === lastCheckedHeight) {
+        stabilityCheckCount++;
+        // 連續 3 次檢查高度相同，認為頁面穩定
+        if (stabilityCheckCount >= 3) {
+            sendHeight();
+            clearInterval(stabilityInterval);
+            console.log(' stable, height confirm');
+        }
     } else {
-      img.onload = img.onerror = () => {
-        loadedCount++;
-        if (loadedCount === imgs.length) sendHeight();
-      }
+        stabilityCheckCount = 0;
+        lastCheckedHeight = currentHeight;
     }
-  }
-  if (loadedCount === imgs.length) sendHeight();
+}
+
+// 初始載入後等待頁面穩定
+let stabilityInterval;
+window.addEventListener('load', () => {
+    // load 後等待 800ms 再開始檢查穩定性
+    setTimeout(() => {
+        stabilityCheckCount = 0;
+        lastCheckedHeight = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight
+        );
+        // 每 200ms 檢查一次，確保高度穩定
+        stabilityInterval = setInterval(checkStability, 200);
+    }, 800);
+});
+
+// 接收父頁面請求時發送
+window.addEventListener('message', (event) => {
+    if (event.data?.type === 'getHeight') {
+        sendHeight();
+    }
 });
 </script>
 

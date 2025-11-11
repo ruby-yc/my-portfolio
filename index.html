@@ -19,11 +19,12 @@
 
   <!--  頁首 -->
   <div class="header" id="header">
-    <img src="images/1000002466 (1600×500).png" alt="background image">
+    <img src="images/background_white.png" alt="background image">
     <div class="header-text" id="headerText">
       <h2 class="header-title">YuChen (Ruby) Dong</h2>
       <h3 class="header-subtitle">
         Aspiring Software Engineer exploring where aesthetics meet algorithms.
+        
       </h3>
     </div>
   </div>
@@ -43,86 +44,99 @@
   <!--  iframe 內容區 -->
   <iframe id="contentFrame" src="intro.html" scrolling="no"></iframe>
 
-  <script>
-    /* ----------------------------
-        強制回頂部設定
-    ----------------------------- */
-    if ('scrollRestoration' in history) {
-      try { history.scrollRestoration = 'manual'; } catch (e) {}
-    }
+<script>
 
-    function forceScrollTop() {
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      setTimeout(() => { window.scrollTo(0, 0); }, 100);
-      setTimeout(() => { window.scrollTo(0, 0); }, 400);
-    }
+if ('scrollRestoration' in history) {
+    try { history.scrollRestoration = 'manual'; } catch (e) {}
+}
+function forceScrollTop() {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    setTimeout(() => window.scrollTo(0, 0), 100);
+    setTimeout(() => window.scrollTo(0, 0), 400);
+}
+window.addEventListener('load', forceScrollTop);
+window.addEventListener('pageshow', () => forceScrollTop());
+if (location.hash) {
+    history.replaceState(null, '', location.pathname + location.search);
+    forceScrollTop();
+}
 
-    window.addEventListener('load', forceScrollTop);
-    window.addEventListener('pageshow', () => forceScrollTop());
+const header = document.getElementById('header');
+const tabsWrapper = document.getElementById('tabsWrapper');
+const iframe = document.getElementById('contentFrame');
+let pollIntervalId = null;
+let lastHeight = 0;
 
-    if (location.hash) {
-      history.replaceState(null, '', location.pathname + location.search);
-      forceScrollTop();
-    }
+window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const opacity = Math.max(0, 1 - scrollY / 150);
+    header.style.opacity = opacity;
+    tabsWrapper.style.opacity = opacity;
+});
 
-    /* ----------------------------
-        iframe 自動高度設定
-    ----------------------------- */
-    const header = document.getElementById('header');
-    const tabsWrapper = document.getElementById('tabsWrapper');
-    const iframe = document.getElementById('contentFrame');
+function loadPage(pageUrl, tabElement) {
+    forceScrollTop();
 
-    // 滾動時漸隱效果
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      const opacity = Math.max(0, 1 - scrollY / 150);
-      header.style.opacity = opacity;
-      tabsWrapper.style.opacity = opacity;
-    });
+    if (pollIntervalId) clearInterval(pollIntervalId);
 
-    // 切換分頁
-    function loadPage(pageUrl, tabElement) {
-      forceScrollTop();
-      iframe.src = pageUrl;
-      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-      tabElement.classList.add('active');
-    }
+    // 重置為初始狀態
+    iframe.style.height = '300px';
+    lastHeight = 0;
+    pollingStopped = false;  // 重置輪詢標誌
 
-    // 自動調整 iframe 高度
-    function adjustIframeHeight() {
-      try {
-        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-        const body = iframeDoc.body;
-        const html = iframeDoc.documentElement;
+    iframe.src = pageUrl;
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    tabElement.classList.add('active');
 
-        const height = Math.max(
-          body.scrollHeight,
-          body.offsetHeight,
-          html.clientHeight,
-          html.scrollHeight,
-          html.offsetHeight
-        );
-
-        iframe.style.height = (height + 10) + 'px';
-        console.log(' iframe 高度自動調整:', height + 'px');
-      } catch (e) {
-        console.error(' iframe 高度偵測失敗:', e);
-        iframe.style.height = '2000px';
-      }
-    }
-
-    // 載入子頁後多次校正高度
-    iframe.onload = function () {
-      setTimeout(adjustIframeHeight, 200);
-      setTimeout(adjustIframeHeight, 500);
-      setTimeout(adjustIframeHeight, 1000);
-      setTimeout(adjustIframeHeight, 1500);
+    iframe.onload = () => {
+        // 讓子頁面完全加載
+        setTimeout(() => {
+            iframe.contentWindow?.postMessage({ type: 'getHeight' }, '*');
+        }, 100);
     };
 
-    window.addEventListener('resize', adjustIframeHeight);
-  </script>
+    // 一次性輪詢，而不是持續輪詢
+    let pollCount = 0;
+    const MAX_POLLS = 15;
+    pollIntervalId = setInterval(() => {
+        iframe.contentWindow?.postMessage({ type: 'getHeight' }, '*');
+        if (++pollCount >= MAX_POLLS) {
+            clearInterval(pollIntervalId);
+            pollingStopped = true;  // 標記輪詢已停止
+            console.log('stop, final height:', lastHeight);
+        }
+    }, 150);
+}
+
+let pollingStopped = false;
+
+function setIframeHeight(height) {
+    // 輪詢停止後不再更新高度
+    if (pollingStopped && lastHeight > 0) {
+        console.log('stop, ignore new height change');
+        return;
+    }
+    
+    if (height <= 0) return;
+    
+    const newHeight = height + 20;
+    
+    if (newHeight === lastHeight) return;
+    
+    lastHeight = newHeight;
+    iframe.style.height = newHeight + 'px';
+    console.log('iframe new height set', newHeight);
+}
+
+window.addEventListener('message', (event) => {
+    if (event.data?.type === 'setHeight') {
+        const height = event.data.height;
+        setIframeHeight(height);
+    }
+});
+</script>
 
 </body>
 </html>

@@ -4,88 +4,125 @@
   <meta charset="UTF-8">
   <title>Other</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    section.other-image {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
-      margin: 20px auto;
-      max-width: 800px;
-    }
 
-    section.other-image div {
-      flex: 1;
-      max-width: 240px;
-    }
-
-    section.other-image img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: block;
-    }
-  </style>
 </head>
 <body>
 
 <h2 class="intro-title">OTHER EXPERIENCE</h2>
 
-<h2>Girls Who Code</h2>
-<p>Participated in a collaborative coding club that fostered a culture of problem-solving, logical reasoning, and peer-to-peer learning. Through hands-on projects and team challenges, I deepened my understanding of programming fundamentals while cultivating resilience, adaptability, and effective communication. This experience also expanded my professional network and enhanced my ability to thrive in collaborative tech environments.</p>
+<h3>2025 Hack Knight Hackathon</h3>
+<ul>
+  <li>Participated in first hackathon, collaborating with a team from brainstorming to presentation</li>
+  <li>Contributed to full project lifecycle including web interface design, frontend-backend integration, and coding AI-powered waste classification features</li>
+  <li>Presented the final product and demonstrated teamwork, rapid problem-solving, and time management under tight deadline</li>
+</ul>
+<section class="other-image">
+  <div><img src="images/hack_self.JPEG" alt="hackathon-1"></div>
+  <div><img src="images/hackgroup.jpg" alt="hackathon-2"></div>
+</section>
 
-<h2>Toastmasters International</h2>
-<p>Developed strong communication and presentation skills through regular speeches and constructive feedback sessions. Practiced delivering technical and non-technical content clearly and persuasively.</p>
+<h3>Girls Who Code</h3>
+<ul>
+  <li>Deepened programming fundamentals through hands-on projects and collaborative team challenges</li>
+  <li>Developed resilience, adaptability, and technical communication skills in peer learning environment</li>
+  <li>Expanded professional network while building expertise in collaborative problem-solving</li>
+</ul>
 
+<h3>Toastmasters International</h3>
+<ul>
+  <li>Developed strong public speaking and presentation skills through regular speech practice</li>
+  <li>Practiced delivering technical and non-technical content clearly and persuasively</li>
+  <li>Received constructive feedback to continuously improve communication effectiveness</li>
+</ul>
 <section class="other-image">
   <div><img src="images/TM-speaking.jpg" alt="TM topic sharing"></div>
   <div><img src="images/TM-timer.jpg" alt="TM timer"></div>
   <div><img src="images/TM.jpg" alt="FJU ToastMaster"></div>
 </section>
 
-<h2>Elementary School Health Education Camp</h2>
-<p>Designed and led an interactive winter camp for elementary school students, transforming complex topics into fun, hands-on learning experiences. By crafting age-appropriate activities and fostering curiosity, I strengthened my ability to distill intricate concepts into clear, engaging formats—enhancing both my communication skills and creative teaching approach.</p>
-
+<h3>Elementary School Health Education Camp</h3>
+<ul>
+  <li>Designed and led interactive winter camp for elementary students, making complex topics accessible</li>
+  <li>Created age-appropriate hands-on activities that fostered curiosity and engagement</li>
+  <li>Enhanced ability to distill intricate concepts into clear, engaging educational formats</li>
+</ul>
 <section class="other-image">
   <div><img src="images/history-intro.jpg" alt="history intro"></div>
   <div><img src="images/wintercamp2.jpg" alt="wintercamp1"></div>
   <div><img src="images/wintercamp.jpg" alt="wintercamp2"></div>
 </section>
 
-<h2>Fun Fact - Fencing</h2>
-<p>Practiced the art of fencing, a sport that sharpened my focus, discipline, and split-second decision-making. The precision and strategic thinking required in fencing cultivated a strong attention to detail and logical rigor—qualities that form a solid foundation for problem-solving.</p>
-
+<h3>Fun Fact - Fencing</h3>
+<ul>
+  <li>Practiced fencing, developing sharp focus, discipline, and split-second decision-making abilities</li>
+  <li>Cultivated precision and strategic thinking through competitive training</li>
+  <li>Built strong attention to detail and logical rigor</li>
+</ul>
 <section class="other-image single-center">
   <div><img src="images/fencing.jpg" alt="Fencing practice"></div>
 </section>
 
 </body>
+
 <script>
+let lastSentHeight = 0;
+let stabilityCheckCount = 0;
+let lastCheckedHeight = 0;
+
 function sendHeight() {
-  const height = document.documentElement.scrollHeight;
-  parent.postMessage({ type: 'setHeight', height: height }, window.location.origin);
+    const height = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+    );
+    
+    if (height !== lastSentHeight) {
+        lastSentHeight = height;
+        console.log('子頁面發送高度:', height);
+        parent.postMessage({ type: 'setHeight', height }, '*');
+    }
 }
 
-// 頁面載入完成
-window.addEventListener('load', sendHeight);
-
-// 等圖片完全載入後再更新
-window.addEventListener('load', () => {
-  const imgs = document.images;
-  let loadedCount = 0;
-  for (let img of imgs) {
-    if (img.complete) {
-      loadedCount++;
+// 檢查頁面是否穩定（高度不再變化）
+function checkStability() {
+    const currentHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+    );
+    
+    if (currentHeight === lastCheckedHeight) {
+        stabilityCheckCount++;
+        // 連續 3 次檢查高度相同，認為頁面穩定
+        if (stabilityCheckCount >= 3) {
+            sendHeight();
+            clearInterval(stabilityInterval);
+            console.log(' stable, height confirm');
+        }
     } else {
-      img.onload = img.onerror = () => {
-        loadedCount++;
-        if (loadedCount === imgs.length) sendHeight();
-      }
+        stabilityCheckCount = 0;
+        lastCheckedHeight = currentHeight;
     }
-  }
-  if (loadedCount === imgs.length) sendHeight();
+}
+
+// 初始載入後等待頁面穩定
+let stabilityInterval;
+window.addEventListener('load', () => {
+    // load 後等待 800ms 再開始檢查穩定性
+    setTimeout(() => {
+        stabilityCheckCount = 0;
+        lastCheckedHeight = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight
+        );
+        // 每 200ms 檢查一次，確保高度穩定
+        stabilityInterval = setInterval(checkStability, 200);
+    }, 800);
+});
+
+// 接收父頁面請求時發送
+window.addEventListener('message', (event) => {
+    if (event.data?.type === 'getHeight') {
+        sendHeight();
+    }
 });
 </script>
 
